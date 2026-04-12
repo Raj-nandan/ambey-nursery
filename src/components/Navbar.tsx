@@ -44,7 +44,7 @@ const Navbar = () => {
             <a href="#" onClick={(e) => { e.preventDefault(); navigate("/"); setMobileOpen(false); }} className="block py-2 text-sm font-medium text-primary">Home</a>
             <a href="#" onClick={(e) => { e.preventDefault(); navigate("/category"); setMobileOpen(false); }} className="block py-2 text-sm font-medium text-muted-foreground">Category</a>
             <a href="#" onClick={(e) => { e.preventDefault(); navigate("/blog"); setMobileOpen(false); }} className="block py-2 text-sm font-medium text-muted-foreground">Blog</a>
-            <a href="#" onClick={(e) => { e.preventDefault(); navigate("/about"); setMobileOpen(false); }} className="block py-2 text-sm font-medium text-muted-foreground">About Us</a>
+            {/* <a href="#" onClick={(e) => { e.preventDefault(); navigate("/about"); setMobileOpen(false); }} className="block py-2 text-sm font-medium text-muted-foreground">About Us</a> */}
             <a href="#" onClick={(e) => { e.preventDefault(); navigate("/contact"); setMobileOpen(false); }} className="block py-2 text-sm font-medium text-muted-foreground">Contact</a>
           </div>
         )}

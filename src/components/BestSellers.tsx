@@ -4,9 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { useCart } from "@/contexts/CartContext";
+import { toast } from "sonner";
 
 const BestSellers = () => {
   const navigate = useNavigate();
+  const { addToCart } = useCart();
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -77,7 +80,13 @@ const BestSellers = () => {
                     <span className="text-[11px] text-muted-foreground ml-1">{p.rating || 4.5}</span>
                   </div>
                   <p className="font-bold text-foreground">Rs {Number(p.price).toFixed(2)}</p>
-                  <Button className="w-full rounded-full text-xs h-9 gap-1 bg-primary hover:bg-primary/90 text-primary-foreground">
+                  <Button 
+                    onClick={() => {
+                      addToCart(p);
+                      toast.success(`${p.name} added to cart!`);
+                    }}
+                    className="w-full rounded-full text-xs h-9 gap-1 bg-primary hover:bg-primary/90 text-primary-foreground"
+                  >
                     Add to Cart <ArrowRight className="h-3 w-3" />
                   </Button>
                 </div>

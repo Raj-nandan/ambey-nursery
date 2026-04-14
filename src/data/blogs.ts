@@ -97,7 +97,7 @@ export const BLOGS: Blog[] = [
       "Sansevieria tolerates low light, irregular watering, and complete neglect — making it the perfect plant for busy people and absolute beginners.",
     category: "Indoor Plants",
     image:
-      "https://images.unsplash.com/photo-1593482892580-e32e47e0a38d?w=800&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1687552212914-03a30c82053c?q=80&w=415&auto=format&fit=crop",
     readTime: "4 min read",
     date: "April 8, 2026",
     author: "Ambey Nursery Team",
@@ -199,7 +199,7 @@ export const BLOGS: Blog[] = [
       "Pothos is the most forgiving vining plant on the planet. Learn how to grow it into a lush, cascading statement piece for any room.",
     category: "Indoor Plants",
     image:
-      "https://images.unsplash.com/photo-1463936575829-25148e1db1b8?w=800&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1625321642799-694ec5bbbb85?q=80&w=387&auto=format&fit=crop",
     readTime: "4 min read",
     date: "April 4, 2026",
     author: "Ambey Nursery Team",
@@ -248,7 +248,7 @@ export const BLOGS: Blog[] = [
       "Nothing says tropical like Hibiscus in full bloom. Learn how to grow these dramatic flowers in Indian conditions — in garden beds or pots.",
     category: "Outdoor Plants",
     image:
-      "https://images.unsplash.com/photo-1490750967868-88aa4f44baee?w=800&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1567990989224-6441e1483ac8?q=80&w=386&auto=format&fit=crop",
     readTime: "5 min read",
     date: "April 2, 2026",
     author: "Ambey Nursery Team",
@@ -304,7 +304,7 @@ export const BLOGS: Blog[] = [
       "India's most sacred plant is also a living pharmacy. Learn how to grow Tulsi easily — on a balcony, terrace, or courtyard.",
     category: "Outdoor Plants",
     image:
-      "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1665479754958-1a8bdc47cc0d?q=80&w=435&auto=format&fit=crop",
     readTime: "4 min read",
     date: "March 30, 2026",
     author: "Ambey Nursery Team",
@@ -355,7 +355,7 @@ export const BLOGS: Blog[] = [
       "With vibrant bracts and an easy temperament, Bougainvillea is India's most dramatic flowering climber. Here's how to grow and bloom it year-round.",
     category: "Outdoor Plants",
     image:
-      "https://images.unsplash.com/photo-1495908333425-29a1e0918c5f?w=800&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1714101449261-0ee291f33abd?q=80&w=774&auto=format&fit=crop",
     readTime: "5 min read",
     date: "March 28, 2026",
     author: "Ambey Nursery Team",
@@ -459,7 +459,7 @@ export const BLOGS: Blog[] = [
       "The Jade Plant is a slow-growing succulent that can live for decades. Considered a symbol of good luck, it's perfect for homes and offices.",
     category: "Succulents & Cacti",
     image:
-      "https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=800&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1643904124064-f8d11bb3d415?q=80&w=1031&auto=format&fit=crop",
     readTime: "4 min read",
     date: "March 22, 2026",
     author: "Ambey Nursery Team",
@@ -510,7 +510,7 @@ export const BLOGS: Blog[] = [
       "Cacti store their own water and thrive on neglect — but a few key tips will help them truly flourish and even bloom for you.",
     category: "Succulents & Cacti",
     image:
-      "https://images.unsplash.com/photo-1605449669747-35d71b9436f8?q=80&w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1757259246003-3cb77775d5c7?q=80&w=387&auto=format&fit=crop",
     readTime: "5 min read",
     date: "March 20, 2026",
     author: "Ambey Nursery Team",
@@ -563,7 +563,7 @@ export const BLOGS: Blog[] = [
       "Marigolds are India's garden icon — used in festivals, garlands, and as natural pest repellents. Learn to grow them abundantly.",
     category: "Flowering Plants",
     image:
-      "https://images.unsplash.com/photo-1643730530591-ea80de0a79e4?q=80&w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1661142175513-a5f0871f1ad1?q=80&w=387&auto=format&fit=crop",
     readTime: "4 min read",
     date: "March 18, 2026",
     author: "Ambey Nursery Team",
@@ -619,7 +619,7 @@ export const BLOGS: Blog[] = [
       "Jasmine's intoxicating fragrance makes it one of the most cherished plants in India. Keep the blooms coming with these easy care tips.",
     category: "Flowering Plants",
     image:
-      "https://images.unsplash.com/photo-1621929747188-0b4dc28498d2?w=800&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1712303064161-3ceedf76bf0e?q=80&w=435&auto=format&fit=crop",
     readTime: "4 min read",
     date: "March 15, 2026",
     author: "Ambey Nursery Team",
@@ -670,7 +670,7 @@ export const BLOGS: Blog[] = [
       "Roses can thrive in Indian gardens with the right care. Learn watering, fertilising, pruning, and disease management to get stunning blooms.",
     category: "Flowering Plants",
     image:
-      "https://images.unsplash.com/photo-1497250681960-ef046c08a56e?w=800&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1652513710860-61970e3e5f69?q=80&w=1032&auto=format&fit=crop",
     readTime: "5 min read",
     date: "March 12, 2026",
     author: "Ambey Nursery Team",
@@ -728,7 +728,7 @@ export const BLOGS: Blog[] = [
       "String of Pearls is one of the most unusual and beautiful trailing succulents. Learn how to keep its bead-like foliage lush and cascading.",
     category: "Hanging Plants",
     image:
-      "https://images.unsplash.com/photo-1521334884684-d80222895322?w=800&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1765041425888-39e09e148a80?q=80&w=387&auto=format&fit=crop",
     readTime: "4 min read",
     date: "March 10, 2026",
     author: "Ambey Nursery Team",
@@ -779,7 +779,7 @@ export const BLOGS: Blog[] = [
       "Hanging plants bring greenery to overlooked vertical spaces — but they dry out fast and have unique care needs. Here's how to nail it.",
     category: "Hanging Plants",
     image:
-      "https://images.unsplash.com/photo-1598880940371-c756e015fea1?w=800&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1550074930-5d91cddbf0cc?q=80&w=870&auto=format&fit=crop",
     readTime: "4 min read",
     date: "March 6, 2026",
     author: "Ambey Nursery Team",
@@ -901,7 +901,7 @@ export const BLOGS: Blog[] = [
       "Composting turns kitchen and garden waste into 'black gold'. Follow this step-by-step guide to make rich, nutrient-dense compost for free.",
     category: "Soil & Composting",
     image:
-      "https://images.unsplash.com/photo-1530049478161-0780526964f4?w=800&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1539902879984-7a1fa3844e48?q=80&w=870&auto=format&fit=crop",
     readTime: "6 min read",
     date: "March 7, 2026",
     author: "Ambey Nursery Team",
@@ -962,7 +962,7 @@ export const BLOGS: Blog[] = [
       "Not all potting mixes are equal. Using the wrong soil can make or break your plant's health. Choose and mix the perfect soil for any plant.",
     category: "Soil & Composting",
     image:
-      "https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=800&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1693385998902-656569d40b88?q=80&w=464&auto=format&fit=crop",
     readTime: "5 min read",
     date: "March 4, 2026",
     author: "Ambey Nursery Team",

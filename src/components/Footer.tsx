@@ -55,7 +55,18 @@ const Footer = () => {
               </li>
               <li className="text-sm text-muted-foreground flex items-center gap-2">
                 <span className="text-primary">📞</span>
-                <a href="tel:+919876543210" className="hover:text-primary transition-colors">+91 8210957160</a>
+                <a 
+                  onClick={() => { navigator.clipboard.writeText("+91 8210957160"); alert("Copied to clipboard: +91 8210957160"); }}
+                  className="hover:text-primary transition-colors cursor-pointer"
+                >
+                  +91 8210957160
+                </a>
+                <a 
+                  onClick={() => { navigator.clipboard.writeText("+91 9934677785"); alert("Copied to clipboard: +91 9934677785"); }}
+                  className="hover:text-primary transition-colors cursor-pointer"
+                >
+                   +91 9934677785
+                </a>
               </li>
               <li className="text-sm text-muted-foreground flex items-center gap-2">
                 <span className="text-primary">✉️</span>

@@ -3,7 +3,8 @@ import { Search, ShoppingCart, Filter } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
-
+import { useCart } from "@/contexts/CartContext";
+import { toast } from "sonner";
 const CATEGORIES = [
   "All Plants",
   "Indoor Plants",
@@ -43,6 +44,7 @@ function matchesPrice(price: number, range: string) {
 
 // ─── component ───────────────────────────────────────────────────────────────
 const Category = () => {
+  const { addToCart } = useCart();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All Plants");
   const [priceRange, setPriceRange] = useState("All Prices");
@@ -276,7 +278,12 @@ const Category = () => {
                       </div>
 
                       {/* Add to Cart */}
-                      <button style={{
+                      <button 
+                        onClick={() => {
+                          addToCart(p);
+                          toast.success(`${p.name} added to cart`);
+                        }}
+                        style={{
                         marginTop: "auto",
                         background: CLR.darkGreen, color: "#fff",
                         border: "none", borderRadius: 4,

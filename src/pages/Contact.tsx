@@ -25,8 +25,8 @@ const INFO_ITEMS = [
   {
     icon: Phone,
     label: "Call Us",
-    lines: ["+91 8210957160"],
-    href: "tel:+918210957160",
+    lines: ["+91 8210957160", "+91 9934677785"],
+    href: null,
   },
   {
     icon: Mail,
@@ -132,7 +132,21 @@ const Contact = () => {
                 </a>
               ) : (
                 <p style={{ color: "#4a7a50", fontSize: 13, margin: 0, lineHeight: 1.6 }}>
-                  {lines.map((l, i) => <span key={i}>{l}{i < lines.length - 1 && <br />}</span>)}
+                  {lines.map((l, i) => (
+                    <span key={i}>
+                      <span
+                        onClick={label === "Call Us" ? () => {
+                          navigator.clipboard.writeText(l);
+                          alert("Copied to clipboard: " + l);
+                        } : undefined}
+                        style={label === "Call Us" ? { cursor: "pointer", textDecoration: "underline", textUnderlineOffset: "3px" } : undefined}
+                        title={label === "Call Us" ? "Click to copy" : undefined}
+                      >
+                        {l}
+                      </span>
+                      {i < lines.length - 1 && <br />}
+                    </span>
+                  ))}
                 </p>
               )}
             </div>

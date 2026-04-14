@@ -1,11 +1,13 @@
 import { Leaf, Search, ShoppingBag, User, Settings, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useCart } from "@/contexts/CartContext";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { getCartItemsCount } = useCart();
+  const cartCount = getCartItemsCount();
 
   return (
     
@@ -28,9 +30,11 @@ const Navbar = () => {
 
           {/* Icons */}
           <div className="flex items-center justify-end gap-3">
-            <button className="relative p-2 rounded-full hover:bg-accent transition-colors">
+            <button className="relative p-2 rounded-full hover:bg-accent transition-colors" onClick={() => navigate("/cart")}>
               <ShoppingBag className="h-5 w-5 text-muted-foreground" />
-              <span className="absolute -top-0.5 -right-0.5 h-4 w-4 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center">3</span>
+              {cartCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 h-4 w-4 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center">{cartCount}</span>
+              )}
             </button>
             <button className="md:hidden p-2" onClick={() => setMobileOpen(!mobileOpen)}>
               {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}

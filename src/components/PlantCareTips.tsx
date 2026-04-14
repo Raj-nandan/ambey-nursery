@@ -11,13 +11,13 @@ const tips = [
     icon: Sun,
     title: "Sunlight Needs",
     desc: "Most houseplants thrive in bright, indirect light. Avoid direct midday sun for delicate plants.",
-    image: "https://images.unsplash.com/photo-1501004318855-b174af8812c4?w=300&h=200&fit=crop",
+    image: "https://images.unsplash.com/photo-1711664641214-360580b1d6d5?q=80&w=435&auto=format&fit=crop",
   },
   {
     icon: Shovel,
     title: "Repotting Guide",
     desc: "Repot every 6-12 months to give roots more space and support better growth.",
-    image: "https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=300&h=200&fit=crop",
+    image: "https://images.unsplash.com/photo-1643730484055-abc29f2de73c?q=80&w=871&auto=format&fit=crop",
   },
 ];
 

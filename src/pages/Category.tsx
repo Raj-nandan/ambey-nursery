@@ -18,7 +18,7 @@ const CATEGORIES = [
   "Soil & Composts",
 ];
 
-const PRICE_RANGES = ["All Prices", "Under $20", "$20 - $30", "Over $30"];
+const PRICE_RANGES = ["All Prices", "Under Rs 20", "Rs 20 - Rs 30", "Over Rs 30"];
 const SORT_OPTIONS = ["Default", "Price: Low to High", "Price: High to Low", "Name: A Z"];
 
 // ─── colour tokens (exactly as seen in the reference) ───────────────────────
@@ -36,9 +36,9 @@ const CLR = {
 // ─── helper ──────────────────────────────────────────────────────────────────
 function matchesPrice(price: number, range: string) {
   if (range === "All Prices") return true;
-  if (range === "Under $20") return price < 20;
-  if (range === "$20 - $30") return price >= 20 && price <= 30;
-  if (range === "Over $30") return price > 30;
+  if (range === "Under Rs 20") return price < 20;
+  if (range === "Rs 20 - Rs 30") return price >= 20 && price <= 30;
+  if (range === "Over Rs 30") return price > 30;
   return true;
 }
 

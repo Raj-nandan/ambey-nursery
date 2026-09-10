@@ -34,8 +34,8 @@ const Footer = () => {
               {([
                 { label: "Home",     to: "/" },
                 { label: "Shop",     to: "/category" },
-                { label: "About Us", to: "/#reviews" },
-                { label: "Blog",     to: "/#tips" },
+                { label: "About Us", to: "/about" },
+                { label: "Blog",     to: "/blog" },
                 { label: "Contact",  to: "/contact" },
               ] as const).map(({ label, to }) => (
                 <li key={label}>

@@ -3,7 +3,23 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Leaf, LogOut, Plus, Pencil, Trash2, X, Save, Search, AlertCircle, ShoppingBag } from "lucide-react";
+import { 
+  Leaf, 
+  LogOut, 
+  Plus, 
+  Pencil, 
+  Trash2, 
+  X, 
+  Save, 
+  Search, 
+  AlertCircle, 
+  ShoppingBag, 
+  Eye, 
+  EyeOff, 
+  Check, 
+  Lock, 
+  Mail 
+} from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import type { Tables } from "@/integrations/supabase/types";
 
@@ -14,12 +30,34 @@ const CATEGORIES = [
   "Indoor Plants", "Outdoor Plants", "Hanging Plants", "Soil & Composts", "Pots",
 ];
 
+// Validation helpers
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const EMAIL_MAX_LENGTH = 32;
+const PASSWORD_MIN_LENGTH = 8;
+const PASSWORD_MAX_LENGTH = 12;
+
+const getPasswordCriteria = (pwd: string) => ({
+  lengthRange: pwd.length >= PASSWORD_MIN_LENGTH && pwd.length <= PASSWORD_MAX_LENGTH,
+  hasUpper: /[A-Z]/.test(pwd),
+  hasLower: /[a-z]/.test(pwd),
+  hasNumber: /[0-9]/.test(pwd),
+  hasSpecial: /[!@#$%^&*(),.?":{}|<>_\-]/.test(pwd),
+});
+
+const isPasswordStrong = (pwd: string) => {
+  const c = getPasswordCriteria(pwd);
+  return c.lengthRange && c.hasUpper && c.hasLower && c.hasNumber && c.hasSpecial;
+};
+
 const Admin = () => {
   const { toast } = useToast();
   const [session, setSession] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [passwordTouched, setPasswordTouched] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [authLoading, setAuthLoading] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
@@ -30,6 +68,26 @@ const Admin = () => {
   });
   const [searchQuery, setSearchQuery] = useState("");
   const [filterCategory, setFilterCategory] = useState("All");
+
+  const isEmailValid = EMAIL_REGEX.test(email.trim()) && email.trim().length <= EMAIL_MAX_LENGTH;
+  const pwdCriteria = getPasswordCriteria(password);
+  const isPwdValid = isPasswordStrong(password);
+
+  const emailError = emailTouched && !email.trim()
+    ? "Email address is required."
+    : emailTouched && email.trim().length > EMAIL_MAX_LENGTH
+    ? `Email cannot exceed ${EMAIL_MAX_LENGTH} characters.`
+    : emailTouched && !EMAIL_REGEX.test(email.trim())
+    ? "Please enter a valid email address (e.g. admin@example.com)."
+    : null;
+
+  const passwordError = passwordTouched && !password
+    ? "Password is required."
+    : passwordTouched && (password.length < PASSWORD_MIN_LENGTH || password.length > PASSWORD_MAX_LENGTH)
+    ? `Password must be between ${PASSWORD_MIN_LENGTH} and ${PASSWORD_MAX_LENGTH} characters.`
+    : passwordTouched && !isPwdValid
+    ? "Password must meet all strength requirements below."
+    : null;
 
   const filteredProducts = products.filter(p => {
     const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -43,8 +101,13 @@ const Admin = () => {
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
-      if (session) checkAdmin(session.user.id);
-      else { setIsAdmin(false); setLoading(false); }
+      if (session) {
+        checkAdmin(session.user.id);
+      } else {
+        setIsAdmin(false);
+        setLoading(false);
+        resetLoginFields();
+      }
     });
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
@@ -53,6 +116,14 @@ const Admin = () => {
     });
     return () => subscription.unsubscribe();
   }, []);
+
+  const resetLoginFields = () => {
+    setEmail("");
+    setPassword("");
+    setEmailTouched(false);
+    setPasswordTouched(false);
+    setShowPassword(false);
+  };
 
   const checkAdmin = async (userId: string) => {
     const { data, error } = await supabase.rpc("has_role", { _user_id: userId, _role: "admin" });
@@ -76,16 +147,58 @@ const Admin = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setEmailTouched(true);
+    setPasswordTouched(true);
+
+    if (email.trim().length > EMAIL_MAX_LENGTH) {
+      toast({
+        title: "Email Too Long",
+        description: `Email must not exceed ${EMAIL_MAX_LENGTH} characters.`,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!isEmailValid) {
+      toast({
+        title: "Invalid Email",
+        description: "Please enter a valid email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (password.length < PASSWORD_MIN_LENGTH || password.length > PASSWORD_MAX_LENGTH) {
+      toast({
+        title: "Invalid Password Length",
+        description: `Password must be between ${PASSWORD_MIN_LENGTH} and ${PASSWORD_MAX_LENGTH} characters.`,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!isPwdValid) {
+      toast({
+        title: "Weak Password",
+        description: `Password must be ${PASSWORD_MIN_LENGTH}–${PASSWORD_MAX_LENGTH} characters and meet all security requirements.`,
+        variant: "destructive",
+      });
+      return;
+    }
+
     setAuthLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
     setAuthLoading(false);
-    if (error) toast({ title: "Login failed", description: error.message, variant: "destructive" });
+    if (error) {
+      toast({ title: "Login failed", description: error.message, variant: "destructive" });
+    }
   };
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
     setSession(null);
     setIsAdmin(false);
+    resetLoginFields();
   };
 
   const resetForm = () => {
@@ -151,22 +264,136 @@ const Admin = () => {
   // Login screen
   if (!session) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-secondary via-background to-accent/30">
-        <div className="bg-card rounded-2xl shadow-xl p-8 w-full max-w-md">
-          <div className="flex items-center gap-2 mb-8 justify-center">
-            <Leaf className="h-10 w-10 text-primary" />
-            <span className="text-3xl font-bold text-foreground">Ambey Nursery Admin</span>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-secondary via-background to-accent/30 p-4">
+        <div className="bg-card rounded-2xl shadow-xl p-8 w-full max-w-md border border-border">
+          <div className="flex flex-col items-center gap-2 mb-6 text-center">
+            <div className="bg-primary/10 p-3 rounded-full mb-1">
+              <Leaf className="h-8 w-8 text-primary" />
+            </div>
+            <h1 className="text-2xl font-bold text-foreground">Ambey Nursery Admin</h1>
+            <p className="text-sm text-muted-foreground">Sign in with authorized administrator credentials</p>
           </div>
-          <form onSubmit={handleLogin} className="space-y-4">
+
+          <form onSubmit={handleLogin} className="space-y-4" noValidate>
             <div>
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="admin@example.com" />
+              <div className="flex items-center justify-between mb-1">
+                <Label htmlFor="email" className="text-sm font-medium">Email Address</Label>
+                <span className="text-xs text-muted-foreground">{email.length}/{EMAIL_MAX_LENGTH}</span>
+              </div>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+                <Input 
+                  id="email" 
+                  type="email" 
+                  value={email} 
+                  maxLength={EMAIL_MAX_LENGTH}
+                  onChange={(e) => setEmail(e.target.value)} 
+                  onBlur={() => setEmailTouched(true)}
+                  placeholder="admin@example.com"
+                  className={`pl-10 h-11 rounded-xl ${emailError ? "border-destructive focus-visible:ring-destructive" : ""}`}
+                />
+              </div>
+              {emailError && (
+                <p className="text-xs text-destructive flex items-center gap-1.5 mt-1.5">
+                  <AlertCircle className="h-3.5 w-3.5 flex-shrink-0" />
+                  <span>{emailError}</span>
+                </p>
+              )}
             </div>
+
             <div>
-              <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="••••••••" />
+              <div className="flex items-center justify-between mb-1">
+                <Label htmlFor="password" className="text-sm font-medium">Password</Label>
+                <span className="text-xs text-muted-foreground">{password.length}/{PASSWORD_MAX_LENGTH}</span>
+              </div>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+                <Input 
+                  id="password" 
+                  type={showPassword ? "text" : "password"} 
+                  value={password} 
+                  maxLength={PASSWORD_MAX_LENGTH}
+                  onChange={(e) => setPassword(e.target.value)} 
+                  onBlur={() => setPasswordTouched(true)}
+                  placeholder="Enter strong password"
+                  className={`pl-10 pr-10 h-11 rounded-xl ${passwordError ? "border-destructive focus-visible:ring-destructive" : ""}`}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+              {passwordError && (
+                <p className="text-xs text-destructive flex items-center gap-1.5 mt-1.5">
+                  <AlertCircle className="h-3.5 w-3.5 flex-shrink-0" />
+                  <span>{passwordError}</span>
+                </p>
+              )}
             </div>
-            <Button type="submit" disabled={authLoading} className="w-full rounded-full bg-primary hover:bg-primary/90 text-primary-foreground">
+
+            {/* Real-time Password Strength Criteria */}
+            {(password.length > 0 || passwordTouched) && (
+              <div className="bg-muted/40 rounded-xl p-3 border border-border/60 text-xs space-y-2">
+                <div className="flex items-center justify-between text-muted-foreground font-medium">
+                  <span>Password Requirements:</span>
+                  <span className={`text-[11px] font-semibold ${isPwdValid ? "text-primary" : "text-muted-foreground"}`}>
+                    {isPwdValid ? "✓ Meets all criteria" : "Requirements pending"}
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 gap-1.5">
+                  <div className={`flex items-center gap-2 transition-colors ${pwdCriteria.lengthRange ? "text-primary font-medium" : "text-muted-foreground"}`}>
+                    {pwdCriteria.lengthRange ? (
+                      <Check className="h-3.5 w-3.5 text-primary flex-shrink-0" />
+                    ) : (
+                      <div className="h-1.5 w-1.5 rounded-full bg-muted-foreground/40 ml-1 mr-1" />
+                    )}
+                    <span>Between 8 and 12 characters</span>
+                  </div>
+                  <div className={`flex items-center gap-2 transition-colors ${pwdCriteria.hasUpper ? "text-primary font-medium" : "text-muted-foreground"}`}>
+                    {pwdCriteria.hasUpper ? (
+                      <Check className="h-3.5 w-3.5 text-primary flex-shrink-0" />
+                    ) : (
+                      <div className="h-1.5 w-1.5 rounded-full bg-muted-foreground/40 ml-1 mr-1" />
+                    )}
+                    <span>At least one uppercase letter (A-Z)</span>
+                  </div>
+                  <div className={`flex items-center gap-2 transition-colors ${pwdCriteria.hasLower ? "text-primary font-medium" : "text-muted-foreground"}`}>
+                    {pwdCriteria.hasLower ? (
+                      <Check className="h-3.5 w-3.5 text-primary flex-shrink-0" />
+                    ) : (
+                      <div className="h-1.5 w-1.5 rounded-full bg-muted-foreground/40 ml-1 mr-1" />
+                    )}
+                    <span>At least one lowercase letter (a-z)</span>
+                  </div>
+                  <div className={`flex items-center gap-2 transition-colors ${pwdCriteria.hasNumber ? "text-primary font-medium" : "text-muted-foreground"}`}>
+                    {pwdCriteria.hasNumber ? (
+                      <Check className="h-3.5 w-3.5 text-primary flex-shrink-0" />
+                    ) : (
+                      <div className="h-1.5 w-1.5 rounded-full bg-muted-foreground/40 ml-1 mr-1" />
+                    )}
+                    <span>At least one number (0-9)</span>
+                  </div>
+                  <div className={`flex items-center gap-2 transition-colors ${pwdCriteria.hasSpecial ? "text-primary font-medium" : "text-muted-foreground"}`}>
+                    {pwdCriteria.hasSpecial ? (
+                      <Check className="h-3.5 w-3.5 text-primary flex-shrink-0" />
+                    ) : (
+                      <div className="h-1.5 w-1.5 rounded-full bg-muted-foreground/40 ml-1 mr-1" />
+                    )}
+                    <span>At least one special character (!@#$%^&*...)</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <Button 
+              type="submit" 
+              disabled={authLoading} 
+              className="w-full h-11 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium shadow-sm transition-all"
+            >
               {authLoading ? "Signing in..." : "Sign In"}
             </Button>
           </form>
